@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Birthday Surprise ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: black;
+        color: white;
+        overflow: hidden;
+    }
+
+    .page {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        opacity: 0;
+        transform: translateX(100px);
+        transition: 0.8s ease;
+        pointer-events: none;
+    }
+
+    .active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: all;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    p {
+        max-width: 650px;
+        font-size: 1.2rem;
+        line-height: 1.6;
+    }
+
+    button {
+        margin-top: 25px;
+        padding: 12px 28px;
+        border: none;
+        border-radius: 25px;
+        background: white;
+        color: black;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #ddd;
+    }
+
+    iframe {
+        margin-top: 20px;
+        border-radius: 12px;
+    }
+
+    /* Balloon */
+    .balloon {
+        width: 70px;
+        height: 90px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: -120px;
+        animation: rise 6s linear forwards;
+    }
+
+    .string {
+        width: 2px;
+        height: 50px;
+        background: white;
+        margin: 0 auto;
+    }
+
+    @keyframes rise {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-120vh); opacity: 0; }
+    }
+
+    .final-text {
+        font-size: 3rem;
+        font-weight: bold;
+        opacity: 0;
+        animation: fadeIn 2s forwards;
+        animation-delay: 2.5s;
+    }
+
+    @keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    /* Confetti */
+    .confetti {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: red;
+        top: -10px;
+        animation: fall 4s linear infinite;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh);
+        }
+    }
+
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND MUSIC -->
+<audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_d0b6f7d0b6.mp3?filename=romantic-11319.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+    <h1>Happy Birthday ❤️</h1>
+    <p>
+        Today is not just a birthday…<br>
+        it’s a reminder that someone truly special came into this world.
+    </p>
+    <button onclick="next()">Continue</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+    <h1>A Message for You</h1>
+    <p>
+        “And if I had to choose my favorite chapter…<br>
+        it would still be the one where I met you.”
+    </p>
+    <button onclick="next()">Continue</button>
+</div>
+
+<!-- PAGE 3 (YouTube Section) -->
+<div class="page" id="p3">
+    <h1>Something Special 🎥</h1>
+    <p>A small memory, a feeling, a moment…</p>
+
+    <!-- YouTube Video -->
+    <iframe width="320" height="200"
+        src="https://www.youtube.com/embed/5qap5aO4i9A"
+        allowfullscreen>
+    </iframe>
+
+    <button onclick="next()">Continue</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+    <h1>Before the Surprise</h1>
+    <p>
+        I hope this year gives you everything you ever wished for.<br>
+        Stay strong, stay kind, stay you.
+    </p>
+    <button onclick="next()">Final Surprise</button>
+</div>
+
+<!-- FINAL PAGE -->
+<div class="page" id="p5">
+    <div id="confetti"></div>
+    <div id="balloons"></div>
+    <div class="final-text">HAPPY BIRTHDAY 🎉</div>
+</div>
+
+<script>
+let i = 1;
+
+function next() {
+    document.getElementById("p" + i).classList.remove("active");
+    i++;
+    document.getElementById("p" + i).classList.add("active");
+
+    if(i === 5) {
+        startFinal();
+    }
+}
+
+/* Balloons */
+function startFinal() {
+    launchBalloons();
+    launchConfetti();
+}
+
+/* Balloons */
+function launchBalloons() {
+    const container = document.getElementById("balloons");
+
+    for (let i = 0; i < 15; i++) {
+        let b = document.createElement("div");
+        b.classList.add("balloon");
+        b.style.left = Math.random() * window.innerWidth + "px";
+        b.style.background = randomColor();
+        b.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+        let s = document.createElement("div");
+        s.classList.add("string");
+
+        b.appendChild(s);
+        container.appendChild(b);
+    }
+}
+
+/* Confetti */
+function launchConfetti() {
+    const c = document.getElementById("confetti");
+
+    for (let i = 0; i < 60; i++) {
+        let d = document.createElement("div");
+        d.classList.add("confetti");
+        d.style.left = Math.random() * window.innerWidth + "px";
+        d.style.background = randomColor();
+        d.style.animationDuration = (2 + Math.random() * 3) + "s";
+
+        c.appendChild(d);
+    }
+}
+
+function randomColor() {
+    const colors = ["#ff4d6d","#ffb703","#8ecae6","#b5179e","#00f5d4","#ffffff"];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+</script>
+
+</body>
+</html>
